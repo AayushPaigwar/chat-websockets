@@ -27,47 +27,51 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("ChatLink WebSocket", style: GoogleFonts.poppins()),
         centerTitle: true,
       ),
-      body: Form(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              buildHeight(10),
-              TextFormField(
-                cursorColor: const Color(0xff6046C5),
-                decoration: const InputDecoration(
-                  labelStyle: TextStyle(color: Colors.black),
-                  border: OutlineInputBorder(),
-                  labelText: "Enter a message",
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff6046C5)),
+      body: Expanded(
+        child: Form(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                buildHeight(10),
+                TextFormField(
+                  cursorColor: const Color(0xff6046C5),
+                  decoration: const InputDecoration(
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(),
+                    labelText: "Enter a message",
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xff6046C5)),
+                    ),
+                  ),
+                  controller: controller,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter a message";
+                    }
+                    return null;
+                  },
+                ),
+
+                // StreamBuilder widget listens to the stream and displays the data received
+                Expanded(
+                  child: StreamBuilder(
+                    stream: widget.channel.stream,
+                    builder: (context, snapshot) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Text(
+                          snapshot.hasData ? "Message: ${snapshot.data}" : "no",
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                controller: controller,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a message";
-                  }
-                  return null;
-                },
-              ),
-
-              // StreamBuilder widget listens to the stream and displays the data received
-              StreamBuilder(
-                stream: widget.channel.stream,
-                builder: (context, snapshot) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Text(
-                      snapshot.hasData ? "Message: ${snapshot.data}" : "no",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
