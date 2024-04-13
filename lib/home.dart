@@ -22,13 +22,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ChatLink WebSocket", style: GoogleFonts.poppins()),
-        centerTitle: true,
-      ),
-      body: Expanded(
-        child: Form(
+    return Expanded(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("ChatLink WebSocket", style: GoogleFonts.poppins()),
+          centerTitle: true,
+        ),
+        body: Form(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -74,34 +74,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        backgroundColor: const Color(0xff6046C5),
-        onPressed: () {
-          if (controller.text.isNotEmpty) {
-            //sends data to the websocket server
-            widget.channel.sink.add(controller.text);
+        floatingActionButton: FloatingActionButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: const Color(0xff6046C5),
+          onPressed: () {
+            if (controller.text.isNotEmpty) {
+              //sends data to the websocket server
+              widget.channel.sink.add(controller.text);
 
-            controller.clear(); //clears the textformfield
+              controller.clear(); //clears the textformfield
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.green.withOpacity(0.8),
-                content: const Text("Message sent"),
-              ),
-            );
-          } else {
-            // reminds the user to write something in the textformfield
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.red.withOpacity(0.8),
-                content: const Text("You must enter something"),
-              ),
-            );
-          }
-        },
-        child: const Icon(Icons.send, color: Colors.white),
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green.withOpacity(0.8),
+                  content: const Text("Message sent"),
+                ),
+              );
+            } else {
+              // reminds the user to write something in the textformfield
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.red.withOpacity(0.8),
+                  content: const Text("You must enter something"),
+                ),
+              );
+            }
+          },
+          child: const Icon(Icons.send, color: Colors.white),
+        ),
       ),
     );
   }
