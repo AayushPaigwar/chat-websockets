@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_socket_channel/io.dart';
 
 import 'const.dart';
-import 'home.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -34,6 +32,7 @@ class LoginPage extends StatelessWidget {
               Image.asset('assets/images/onboarding.png',
                   width: 300, height: 300),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RichText(
                     text: TextSpan(
@@ -77,14 +76,9 @@ class LoginPage extends StatelessWidget {
                         MaterialStateProperty.all(const Color(0xff6046C5))),
                 onPressed: () {
                   //Login button navigation
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => MyHomePage(
-                        channel: IOWebSocketChannel.connect(
-                            "ws://echo.websocket.org"),
-                      ),
-                    ),
+                    "/home",
                   );
                 },
                 child: Text(

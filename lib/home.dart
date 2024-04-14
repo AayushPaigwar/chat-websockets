@@ -7,6 +7,7 @@ import 'const.dart';
 class MyHomePage extends StatefulWidget {
   //WebSocketChannel instance created
   final WebSocketChannel channel;
+
   const MyHomePage({super.key, required this.channel});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -54,22 +55,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
 
                 // StreamBuilder widget listens to the stream and displays the data received
-                Expanded(
-                  child: StreamBuilder(
+                StreamBuilder(
                     stream: widget.channel.stream,
                     builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: Text("Connection error: ${snapshot.error}"),
+                        );
+                      }
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: Text(
-                          snapshot.hasData ? "Message: ${snapshot.data}" : "no",
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                          ),
+                          snapshot.hasData
+                              ? "Message: ${snapshot.data}"
+                              : "No data",
+                          style: GoogleFonts.poppins(fontSize: 20),
                         ),
                       );
-                    },
-                  ),
-                ),
+                    }),
               ],
             ),
           ),
